@@ -1,0 +1,21 @@
+[project]
+name = "agents-sdk-pg"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Adhish Thite",email = "adhish.thite@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "python-dotenv (>=1.0.1,<2.0.0)",
+    "openai-agents (>=0.0.4,<0.0.5)"
+]
+
+[tool.poetry]
+packages = [{include = "agents_sdk_pg", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
