@@ -2,18 +2,12 @@ import os
 from dotenv import load_dotenv
 from agents import Agent, Runner, set_default_openai_client, set_default_openai_api, set_tracing_disabled
 import asyncio
-from openai import AsyncAzureOpenAI, AsyncOpenAI
+from providers.azure_openai import get_azure_openai_client, get_azure_openai_reasoning_client
 
 load_dotenv()
 
-
-# Create OpenAI client using Azure OpenAI
-openai_client = AsyncAzureOpenAI(
-    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-    azure_deployment=os.getenv("AZURE_OPENAI_DEPLOYMENT")
-)
+# Get OpenAI client using Azure OpenAI provider
+openai_client = get_azure_openai_reasoning_client()
 
 # Set the default OpenAI client for the Agents SDK
 set_default_openai_client(openai_client, use_for_tracing=False)
@@ -27,11 +21,11 @@ async def main():
     agent = Agent(
         name="Assistant",
         instructions="You are a helpful assistant",
-        model=os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        model=os.getenv("O3_MINI_DEPLOYMENT")
     )
 
     result = await Runner.run(agent, "Write a haiku about recursion in programming.")
-    print("\nAgent response:")
+    print("\nAgent response:\n")
     print(result.final_output)
 
 if __name__ == "__main__":
